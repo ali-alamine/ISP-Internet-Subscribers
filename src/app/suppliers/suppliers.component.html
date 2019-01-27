@@ -1,0 +1,54 @@
+<div class="container-fluid">
+  <button mat-raised-button color="primary" (click)="editFlag=false;openSupplierModal(supplierModal)">
+    <i class="material-icons">add</i> Add Supplier
+  </button>
+  <hr>
+  <p-contextMenu [target]="contextScope" [model]="items" oncontextmenu="return false;"></p-contextMenu>
+  <table class="table table-striped table-bordered table-hover table-sm noselect " id="suppliersDT">
+    <thead>
+
+    </thead>
+    <tbody #contextScope>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #supplierModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{supplierModalTitle}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form fxLayout="column" [formGroup]="supplierForm" autocomplete="off">
+      <div class="input-row" fxLayout="row">
+        <mat-form-field class="inputField" fxFlex>
+          <input matInput placeholder="Name" formControlName="name" type="text" name="nameInput" [appFocusDirective]="true">
+          <mat-error> subscriber name is required</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field class="inputField" fxFlex>
+          <input matInput placeholder="Phone Number" formControlName="phone" type="text">
+          <mat-error> subscriber phone is required</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field class="inputField" fxFlex>
+          <input matInput placeholder="Address" formControlName="address" type="text">
+          <mat-error> subscriber address is required</mat-error>
+        </mat-form-field>
+      </div>
+
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button mat-raised-button name="addButton" color="primary" (click)="addEditSupplier()" [disabled]="!supplierForm.valid">{{supplierModalTitle}}</button>
+  </div>
+</ng-template>
+
+<div hidden>
+  <button id="editSupplierBtn" (click)="editFlag=true;openSupplierModal(supplierModal)"></button>
+  <button id="showSupInvoices" (click)="navigateToInvoices()"></button>
+</div>

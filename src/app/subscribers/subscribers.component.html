@@ -1,0 +1,160 @@
+<div class="container-fluid">
+  <button mat-raised-button color="primary" (click)="editFlag=false;openSubscriberModal(subscriberModal)">
+    <i class="material-icons">add</i> Add Subscriber
+  </button>
+
+  <hr>
+  <p-contextMenu [target]="contextScope" [model]="items" oncontextmenu="return false;"></p-contextMenu>
+ 
+
+  <table class="table table-striped table-bordered table-hover table-sm noselect " id="subscribersDT">
+    <thead>
+    </thead>
+    <tbody #contextScope>
+    </tbody>
+  </table>
+</div>
+
+<ng-template #subscriberModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">{{subscriberModalTitle}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form fxLayout="column" [formGroup]="subscriberForm" autocomplete="off">
+      <div class="input-row" fxLayout="row">
+        <mat-form-field class="inputField" fxFlex>
+          <input matInput placeholder="Name" formControlName="name" type="text" name="nameInput" [appFocusDirective]="true">
+          <mat-error> Name is required</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="input-row" fxLayout="row">
+        <mat-form-field class="inputField" fxFlex>
+          <input matInput placeholder="Username" formControlName="username" type="text" name="nameInput">
+          <mat-error>Username is required</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field class="inputField" fxFlex>
+          <input matInput placeholder="Phone Number" formControlName="phone" type="text">
+          <mat-error> subscriber phone is required</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field class="inputField" fxFlex>
+          <input matInput placeholder="Address" formControlName="address" type="text">
+          <mat-error> subscriber address is required</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field class="inputField" fxFlex>
+          <input matInput placeholder="Profile" formControlName="profile" type="number">
+          <mat-error> Profile is required</mat-error>
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button mat-raised-button name="addButton" color="primary" (click)="addEditSubscriber()" [disabled]="!subscriberForm.valid">{{subscriberModalTitle}}</button>
+  </div>
+</ng-template>
+<ng-template #resubscribeModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Resubscribe Service : {{subscriberName}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form fxLayout="column" [formGroup]="resubscribeForm" autocomplete="off">
+      <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field class="inputField">
+          <input matInput [matDatepicker]="startDP" [min]="minExpDate" [max]="maxDate" formControlName="subDate" placeholder="Start Date" [appFocusDirective]="true">
+          <mat-datepicker-toggle matSuffix [for]="startDP" tabIndex="-1"></mat-datepicker-toggle>
+          <mat-datepicker touchUi #startDP></mat-datepicker>
+          <mat-error> Start Date is required</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field class="inputField" disabled>
+          <input matInput [matDatepicker]="myDatepicker" formControlName="expDate" placeholder="End Date">
+          <mat-datepicker-toggle matSuffix [for]="myDatepicker" tabIndex="-1"></mat-datepicker-toggle>
+          <mat-datepicker #myDatepicker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="input-row noselect" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-checkbox color="primary" formControlName="isPaid">Paid</mat-checkbox>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button mat-raised-button name="addButton" color="primary" (click)="resubscribeSubmit()" [disabled]="!resubscribeForm.valid">Resubscribe</button>
+  </div>
+</ng-template>
+
+<ng-template #debitPaymentModel let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Debit Payment : sss</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form fxLayout="column" [formGroup]="debitPaymentForm" autocomplete="off">
+      <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field class="inputField">
+          <input matInput formControlName="paymentAmount" placeholder="Add / Subtract Debit Amount">
+          <!-- <mat-error> Start Date is required</mat-error> -->
+        </mat-form-field>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button mat-raised-button name="addButton" color="primary" (click)="submitDebitPaymentAmount()"  [disabled]="!debitPaymentForm.valid">Resubscribe</button>
+  </div>
+</ng-template>
+
+<div hidden>
+  <button id="editSubscriberBtn" (click)="editFlag=true;openSubscriberModal(subscriberModal)"></button> 
+  <button id="resubscribeBtn" (click)="openResubscribeModal(resubscribeModal)"></button>
+  <button id="toggleActivationBtn" (click)="toggleActivation()"></button>
+  <button id="togglePaymentBtn" (click)="togglePayment()"></button>
+  <button id="showPayments" (click)="navigateToSubsc()"></button>
+  <button id="showPayments2" (click)="showMonths(subMonths)"></button>
+  <button id="copyNameBtn" (click)="copyName()"></button>
+  <button id="debitPaymentBtn" (click)="openDebitPayment(debitPaymentModel)"></button>
+</div>
+
+
+
+<ng-template #subMonths let-c="close" let-d="dismiss">
+    <p-contextMenu id="menuTest" appendTo="tbody" [target]="contextDialogScope" [model]="dialogContextMenu" oncontextmenu="return false;" (show)="alert('12')"></p-contextMenu>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Invoice Payments</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <table class="table table-striped table-bordered table-hover table-sm noselect " id="subsMonths">
+      <thead>
+      </thead>
+      <tbody #contextDialogScope>
+      </tbody>
+    </table>
+  </div>
+  <div class="modal-footer">
+    
+  </div>
+</ng-template>
+
+
+<ngx-spinner
+bdColor = "rgba(51, 51, 51, 0.8)"
+size = "medium"
+color = "#ec0f0f"
+type = "fire"
+></ngx-spinner>

@@ -1,0 +1,332 @@
+<mat-tab-group  mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4">
+<!-- <mat-tab label="FULL CARD">
+    <div class="container">
+      <br>
+      <form fxLayout="column" [formGroup]="fullCardForm" autocomplete="off">
+        <div class="input-row " fxLayout="row">
+          <mat-form-field  fxFlex  style=" width:700px;">
+            <input matInput placeholder="Search Bar Code" formControlName="searchBarCode"
+              type="text" name="nameInput" autofocus>
+          </mat-form-field>
+        </div>
+        <div class="input-row" fxLayout="row">
+          <mat-form-field  fxFlex style=" width:700px;">
+              <mat-select placeholder="Card Name" formControlName="cardName">
+              <mat-option *ngFor="let rc of rechargeCard" (onSelectionChange)="selectRechargeCard($event,rc)" [value]="rc.name">{{rc.name}}</mat-option>
+              </mat-select>
+          </mat-form-field>
+        </div>  
+        <div class="input-row" fxLayout="row">
+          <mat-form-field  fxFlex style=" width:700px;">
+              <input matInput placeholder="Quantity" formControlName="quantity" type="number">
+          </mat-form-field>
+        </div>  
+        <div class="input-row" fxLayout="row">
+          <mat-form-field  fxFlex style=" width:700px;">
+              <input matInput placeholder="Price" formControlName="price" type="number">
+          </mat-form-field>
+        </div>
+        <mat-checkbox #debitFullCard formControlName="debit">Debit</mat-checkbox>
+        <div *ngIf="debitFullCard.checked">
+          <form fxLayout="column" [formGroup]="clientDebitForm" autocomplete="on">
+            <div class="input-row " fxLayout="row">
+              <mat-form-field  fxFlex  style=" width:700px;">
+                <input matInput placeholder="Search Client Name"
+                  formControlName="searchClient" 
+                  type="text" name="nameInput" [matAutocomplete]="autoClient" id="searchClient">
+                <mat-autocomplete #autoClient="matAutocomplete">
+                  <mat-option (onSelectionChange)="searchClientChange(client.PID,client.name)" 
+                    *ngFor="let client of clients" 
+                    [value]="client.name">{{client.name}} PHONE: {{client.phone}}</mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+              <button mat-raised-button class="searchFormBtn" name="searchBtn" color="primary"  
+                (click)="openClientModal(clientModal)">Add Client</button>
+            </div>
+            <div class="input-row" fxLayout="row">
+              <mat-form-field  fxFlex style=" width:700px;">
+                  <input matInput placeholder="Client Name" formControlName="clientName" type="text"  [readonly]="true">
+                  <mat-error> Client name is required</mat-error>
+              </mat-form-field>
+            </div>      
+          </form>
+        </div>  
+        <div class="input-row" fxLayout="row">
+          <button mat-raised-button class="sellFullCardBtn" color="primary" [disabled]="!fullCardForm.valid" (click)="sellFullCard()">SELL</button>
+        </div>
+        <br>
+      </form>
+    </div>
+  </mat-tab>
+  <mat-tab label="OFFERS"> 
+    <div class="container">
+      <br>
+      <form fxLayout="column" [formGroup]="offersForm" autocomplete="off">
+        <div class="input-row " fxLayout="row">
+          <mat-form-field  fxFlex  style=" width:700px;">
+            <input matInput placeholder="Search Bar Code" formControlName="searchBarCode" type="text" name="nameInput" autofocus>
+          </mat-form-field>
+        </div>
+        <div class="input-row" fxLayout="row">
+          <mat-form-field  fxFlex style=" width:700px;">
+              <mat-select matInput placeholder="Company"  formControlName="company">
+                <mat-option value="ALFA">ALFA 22$</mat-option>
+                <mat-option value="MTC">MTC 22$</mat-option>
+              </mat-select>
+          </mat-form-field>
+        </div>  
+        <div class="input-row" fxLayout="row">
+          <mat-form-field  fxFlex style=" width:700px;">
+              <input matInput #mounth placeholder="Mounth" formControlName="mounth" type="number">
+          </mat-form-field>
+        </div>  
+        <div class="input-row" fxLayout="row">
+          <mat-form-field  fxFlex style=" width:700px;">
+              <input matInput #credits placeholder="Credits" formControlName="credits" type="number">
+              <mat-hint>Credits will transfer to you account:{{mounth.value*20 - credits.value}} </mat-hint>
+          </mat-form-field>
+        </div> 
+        <div class="input-row" fxLayout="row">
+          <mat-form-field  fxFlex style=" width:700px;">
+              <input matInput placeholder="Price" formControlName="price" type="number">
+          </mat-form-field>
+        </div> 
+        <mat-checkbox #debitOffers formControlName="debit">Debit</mat-checkbox>
+        <div *ngIf="debitOffers.checked">
+          <form fxLayout="column" [formGroup]="clientDebitForm" autocomplete="on">
+            <div class="input-row " fxLayout="row">
+              <mat-form-field  fxFlex  style=" width:700px;">
+                <input matInput placeholder="Search Client Name"
+                  formControlName="searchClient" 
+                  type="text" name="nameInput" [matAutocomplete]="autoClient" id="searchClient">
+                <mat-autocomplete #autoClient="matAutocomplete">
+                  <mat-option (onSelectionChange)="searchClientChange(client.PID,client.name)" 
+                    *ngFor="let client of clients" 
+                    [value]="client.name">{{client.name}} PHONE: {{client.phone}}</mat-option>
+                </mat-autocomplete>
+              </mat-form-field>
+              <button mat-raised-button class="searchFormBtn" name="searchBtn" color="primary"  
+                (click)="openClientModal(clientModal)">Add Client</button>
+            </div>
+            <div class="input-row" fxLayout="row">
+              <mat-form-field  fxFlex style=" width:700px;">
+                  <input matInput placeholder="Client Name" formControlName="clientName" type="text"  [readonly]="true">
+                  <mat-error> Client name is required</mat-error>
+              </mat-form-field>
+            </div>      
+          </form>
+        </div>
+        <div class="input-row" fxLayout="row">
+          <button mat-raised-button  color="primary" [disabled]="!offersForm.valid" (click)="sellOffers()">SELL</button>
+        </div>
+        <br>
+      </form>
+    </div>
+  </mat-tab>
+  <mat-tab label="CREDIT $"> 
+      <div class="container">
+        <br>
+        <form fxLayout="column" [formGroup]="creditTransfersForm" autocomplete="off">
+          <div class="input-row" fxLayout="row">
+            <mat-form-field  fxFlex style=" width:700px;">
+              <mat-select matInput placeholder="Company Credits" formControlName="company">
+                <mat-option value="ALFA">ALFA</mat-option>
+                <mat-option value="MTC">MTC</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>  
+          <div class="input-row" fxLayout="row">
+            <mat-form-field  fxFlex style=" width:700px;">
+                <mat-select matInput placeholder="$ Credits Transfers"  formControlName="credits">
+                  <mat-option value="1">1 $</mat-option>
+                  <mat-option value="2">2 $</mat-option>
+                  <mat-option value="3">3 $</mat-option>
+                  <mat-option value="4">4 $</mat-option>
+                  <mat-option value="5">5 $</mat-option>
+                  <mat-option value="6">6 $</mat-option>
+                  <mat-option value="7">7 $</mat-option>
+                  <mat-option value="8">8 $</mat-option>
+                  <mat-option value="9">9 $</mat-option>
+                  <mat-option value="10">10 $</mat-option>
+                </mat-select>
+            </mat-form-field>
+          </div> 
+          <div class="input-row" fxLayout="row">
+            <mat-form-field  fxFlex style=" width:700px;">
+                <input matInput placeholder="$ Price" formControlName="price" type="number">
+            </mat-form-field>
+          </div> 
+          <mat-checkbox #debitCreditTransfers formControlName="debit">Debit</mat-checkbox>
+          <div *ngIf="debitCreditTransfers.checked">
+            <form fxLayout="column" [formGroup]="clientDebitForm" autocomplete="on">
+              <div class="input-row " fxLayout="row">
+                <mat-form-field  fxFlex  style=" width:700px;">
+                  <input matInput placeholder="Search Client Name"
+                    formControlName="searchClient" 
+                    type="text" name="nameInput" [matAutocomplete]="autoClient" id="searchClient">
+                  <mat-autocomplete #autoClient="matAutocomplete">
+                    <mat-option (onSelectionChange)="searchClientChange(client.PID,client.name)" 
+                      *ngFor="let client of clients" 
+                      [value]="client.name">{{client.name}} PHONE: {{client.phone}}</mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+                <button mat-raised-button class="searchFormBtn" name="searchBtn" color="primary"  
+                  (click)="openClientModal(clientModal)">Add Client</button>
+              </div>
+              <div class="input-row" fxLayout="row">
+                <mat-form-field  fxFlex style=" width:700px;">
+                    <input matInput placeholder="Client Name" formControlName="clientName" type="text"  [readonly]="true">
+                    <mat-error> Client name is required</mat-error>
+                </mat-form-field>
+              </div>      
+            </form>
+          </div>  
+          <div class="input-row" fxLayout="row">
+            <button mat-raised-button class="creditTransfersFormBtn" color="primary" [disabled]="!creditTransfersForm.valid" (click)="sellCreditTransfers()">SELL</button>
+          </div>
+        </form>
+      <br>
+      </div>
+    </mat-tab> -->
+    <mat-tab label="ACCESSORIES"> 
+      <div class="container">
+        <br>
+        <form [formGroup]="accessoriesForm" autocomplete="off">
+          <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+            <mat-form-field fxFlex style=" width:700px;">
+              <input matInput placeholder="Search Accessories" formControlName="searchAccessories" type="text" 
+              name="nameInput" [matAutocomplete]="auto" autofocus>
+              <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option (onSelectionChange)="addItem(ac.IID,ac.name,ac.price,ac.cost)" *ngFor="let ac of accessories" 
+                  [value]="ac.name">{{ac.name}}</mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </div>  
+          <div formArrayName="items">
+            <div *ngFor="let item of itemsForm.controls; let i=index" [formGroupName]="i">
+              <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+                  <mat-form-field fxFlex  style=" width:700px;">
+                      <input matInput placeholder="Accessories Name" formControlName="name" type="text" [readonly]="true">
+                  </mat-form-field>
+                  <mat-form-field fxFlex class="inputField">
+                      <input matInput placeholder="Quantity" formControlName="quantity" type="number" min="0" (ngModelChange)="updateRowPriceAccessories()"
+                      onkeydown="javascript: return event.keyCode == 69 ? false : true">
+                  </mat-form-field>
+                  <mat-form-field fxFlex class="inputField">
+                      <input matInput placeholder="Price" formControlName="price" type="number" min="0"
+                      onkeydown="javascript: return event.keyCode == 69 ? false : true" [readonly]="true">
+                  </mat-form-field>
+                  <mat-form-field fxFlex class="inputField">
+                    <input matInput placeholder="Total Price" formControlName="rowTotalPrice" type="number" min="0"  (ngModelChange)="updateTotalPriceAccessories()"
+                    onkeydown="javascript: return event.keyCode == 69 ? false : true">
+                </mat-form-field>
+                  <button mat-icon-button (click)="deleteItem(i)" color="warn" tabindex="-1">
+                      <mat-icon aria-label="Delete Item" title="Delete Item">close</mat-icon>
+                  </button>
+              </div>
+            </div>
+          </div> 
+          <hr>
+          <mat-form-field fxFlex>
+              <input matInput placeholder="Total Price" formControlName="totalPrice" type="number" min="0" onkeydown="javascript: return event.keyCode == 69 ? false : true">
+          </mat-form-field>
+          <br>
+          <mat-checkbox #debitAccessories formControlName="debit">Debit</mat-checkbox>
+          <div *ngIf="debitAccessories.checked">
+            <form fxLayout="column" [formGroup]="clientDebitForm" autocomplete="on">
+              <div class="input-row " fxLayout="row">
+                <mat-form-field  fxFlex  style=" width:700px;">
+                  <input matInput placeholder="Search Client Name"
+                    formControlName="searchClient" 
+                    type="text" name="nameInput" [matAutocomplete]="autoClient" id="searchClient">
+                  <mat-autocomplete #autoClient="matAutocomplete">
+                    <mat-option (onSelectionChange)="searchClientChange(client.PID,client.name)" 
+                      *ngFor="let client of clients" 
+                      [value]="client.name">{{client.name}} PHONE: {{client.phone}}</mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+                <button mat-raised-button class="searchFormBtn" name="searchBtn" color="primary"  
+                  (click)="openClientModal(clientModal)">Add Client</button>
+              </div>
+              <div class="input-row" fxLayout="row">
+                <mat-form-field  fxFlex style=" width:700px;">
+                    <input matInput placeholder="Client Name" formControlName="clientName" type="text"  [readonly]="true">
+                    <mat-error> Client name is required</mat-error>
+                </mat-form-field>
+              </div>      
+            </form>
+          </div>
+          <div>
+            <button mat-raised-button name="addButton"color="primary"
+            (click)="sellAccessories()" [disabled]="!accessoriesForm.valid">SELL</button>
+          </div>
+          <br>
+        </form>
+      </div>
+    </mat-tab>
+    <!-- <mat-tab label="CENTRAL"> 
+      <div class="container">
+        <br>
+        <form [formGroup]="centralForm">
+          <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px"> 
+            <mat-form-field  fxFlex style=" width:700px;">
+              <input matInput placeholder="Country"
+                [matAutocomplete]="autoCountry" formControlName="country" type="text" autofocus>
+              <mat-autocomplete #autoCountry="matAutocomplete">
+                <mat-option *ngFor="let country of filteredCountrys" 
+                  [value]="country.name">{{country.name}}, {{country.code}}</mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field class="inputField">
+              <input matInput placeholder="Mins" formControlName="mins" type="number" min="0">
+            </mat-form-field>
+            <mat-form-field class="inputField">
+                <input matInput placeholder="Total Price" formControlName="price" type="number" min="0">
+            </mat-form-field>
+        </div>
+        <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+          <button type="submit"  mat-raised-button color="primary" 
+            name="addButton" color="primary" [disabled]="!centralForm.valid" (click)="sellCentral()">SELL</button>
+        </div>
+      </form>
+    </div>
+    <br>
+    </mat-tab> -->
+    </mat-tab-group>
+    <!-- </div> -->
+    <ng-template #clientModal let-c="close" let-d="dismiss">
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Add Client</h4>
+          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form fxLayout="column" [formGroup]="clientForm" autocomplete="off">
+            <div class="input-row" fxLayout="row">
+              <mat-form-field fxFlex>
+                <input matInput placeholder="Name" id="clientNameModal"
+                formControlName="name" type="text" name="nameInput">
+                <mat-error> client name is required</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+              <mat-form-field fxFlex>
+                <input matInput placeholder="Phone Number" formControlName="phone" type="text">
+                <mat-error> client phone is required</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+              <mat-form-field fxFlex>
+                <input matInput placeholder="Address" formControlName="address" type="text">
+                <mat-error> client address is required</mat-error>
+              </mat-form-field>
+            </div>
+            
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button mat-raised-button name="addButton" color="primary" (click)="addClient()" [disabled]="!clientForm.valid">Add</button>
+        </div>
+    </ng-template>
+    

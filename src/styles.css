@@ -1,0 +1,89 @@
+/* You can add global styles to this file, and also import other style files */
+@import './design/bootstrap-4.1.3-dist/css/bootstrap.min.css';
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import './DataTables/datatables.min.css';
+
+
+/* solve datepicker issue with ngx-modal */
+.cdk-overlay-container{ z-index: 1500 !important; }  
+
+
+
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: url(./design/iconfont/MaterialIcons-Regular.eot); /* For IE6-8 */
+    src: local('Material Icons'),
+      local('MaterialIcons-Regular'),
+      url(./design/iconfont/MaterialIcons-Regular.woff2) format('woff2'),
+      url(./design/iconfont/MaterialIcons-Regular.woff) format('woff'),
+      url(./design/iconfont/MaterialIcons-Regular.ttf) format('truetype');
+  }
+
+  .material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;  /* Preferred icon size */
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+  
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+  
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+  
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+  }
+
+  .mat-button-toggle-button{
+    width: 100%;
+    cursor: pointer;
+  }
+
+ 
+  #internetInvoicesDT tbody tr.selected ,#omtDT tbody tr.selected, #accessoriesInvoicesDT tbody tr.selected,#subscribersRprtDT tbody tr.selected ,#subscribersDT tbody tr.selected, #suppliersDT tbody tr.selected, #centralInvoicesDT tbody tr.selected, #creditInvoicesDT tbody tr.selected, #supplyInvoicesDT tbody tr.selected, #invoicePaymentsDT tbody tr.selected, #clientsDT tbody tr.selected  {
+    color: white !important;
+    background-color:#778899 !important;
+  }
+
+  .dtSearchHeader{
+    border: 0px !important;
+    text-align: center !important;
+    width: 100% !important;
+    color: red;
+  }
+ 
+/* 
+  
+  .ui-contextmenu{
+    z-index:1000000000000 !important;
+  } */
+
+
+  /* #menuTest .ui-contextmenu{
+    left: 0px !important;
+    top: 0px !important;
+  }
+   */
+
+
+   .noselect {
+    -webkit-touch-callout: none;
+      -webkit-user-select: none; 
+       -khtml-user-select: none; 
+         -moz-user-select: none; 
+          -ms-user-select: none; 
+              user-select: none; 
+                                   
+}

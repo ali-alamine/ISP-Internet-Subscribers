@@ -1,0 +1,304 @@
+<div class="container-fluid">
+
+  <div class="omtBtns">
+    <button mat-raised-button color="primary" (click)="openWUModal(WUModal)">Western Union</button>
+    <button mat-raised-button color="primary" (click)="openIntraModal(intaModal)">OMT INTRA</button>
+    <button mat-raised-button color="primary" (click)="openbillModal(billModal)">Telecom Bill</button>
+    <button mat-raised-button color="primary" (click)="openctbModal(ctbModal)">Cash to Business</button>
+    <button mat-raised-button color="primary" (click)="openExtraModal(extraModal)">Extra</button>
+  </div>
+
+ 
+  <hr>
+  <div id="TotalDiv">
+    <h6 style="color:red">OMT Intra Minus: {{totalIntraMinus | currency:'LL ':'symbol':'1.0-0'}}</h6>
+    <h6 style="color:blue">OMT Intra Plus: {{totalIntraPlus | currency:'LL ':'symbol':'1.0-0'}}</h6>
+    <h6 style="color:red">Western Union Minus: {{totalWesternUnionMinus | currency:'LL ':'symbol':'1.0-0'}}</h6>
+    <h6 style="color:blue">Western Union Plus: {{totalWesternUnionPlus | currency:'LL ':'symbol':'1.0-0'}}</h6>
+  </div>
+ 
+
+  <hr>
+
+  <table class="table table-striped table-bordered table-hover table-sm noselect " id="omtDT">
+    <thead>
+    </thead>
+    <tbody #contextScope>
+    </tbody>
+  </table>
+
+  <p-contextMenu [target]="contextScope" [model]="items" oncontextmenu="return false;"></p-contextMenu>
+</div>
+
+
+<div hidden>
+  <button id="setAsPaidBtn" (click)="setAsPaid()"></button>
+  <button id="deleteOperationBtn" (click)="deleteOperation()"></button>
+</div>
+
+<ng-template #WUModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">New Western Union Transaction</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form fxLayout="column" [formGroup]="wuForm" autocomplete="off">
+      <mat-radio-group formControlName="tranType" fxLayout fxLayoutAlign="center center" fxLayoutGap="30px">
+        <mat-radio-button value="p" [checked]="true">Plus</mat-radio-button>
+        <mat-radio-button value="m">Minus</mat-radio-button>
+      </mat-radio-group>
+
+      <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex class="inputField">
+          <input matInput placeholder="Amount $" formControlName="amountD" type="number" min="0" onkeydown="javascript: return event.keyCode == 69 ? false : true">
+        </mat-form-field>
+      </div>
+
+      <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex class="inputField">
+          <input matInput placeholder="Amount L.L" formControlName="amountL" type="number" step="1000" min="0"
+            onkeydown="javascript: return event.keyCode == 69 ? false : true">
+        </mat-form-field>
+      </div>
+
+
+      <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field class="inputField" fxFlex>
+          <input matInput placeholder="Client Name" formControlName="clientName" type="text" name="nameInput"
+            [matAutocomplete]="auto">
+          <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="wuClearClientName()">
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option (onSelectionChange)="wuSetClient(option.PID)" *ngFor="let option of options" [value]="option.name">{{option.name}}
+              || {{option.address}}</mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button mat-raised-button name="addButton" color="primary" (click)="addWuOperation()" [disabled]="!wuForm.valid">Submit</button>
+  </div>
+</ng-template>
+
+<ng-template #intaModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">New OMT INTRA Transaction</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form fxLayout="column" [formGroup]="intraForm" autocomplete="off">
+      <div>
+        <mat-radio-group formControlName="tranType" fxLayout fxLayoutAlign="center center" fxLayoutGap="30px">
+          <mat-radio-button value="p" [checked]="true">Plus</mat-radio-button>
+          <mat-radio-button value="m">Minus</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <div>
+        <mat-radio-group formControlName="currency" fxLayout fxLayoutAlign="center center" fxLayoutGap="30px">
+          <mat-radio-button value="d" [checked]="true">$</mat-radio-button>
+          <mat-radio-button value="l">L.L</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+
+      <div *ngIf="intraIsDollar" class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px"
+        fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex class="inputField">
+          <input matInput placeholder="Amount $" formControlName="amountD" type="number" min="0" onkeydown="javascript: return event.keyCode == 69 ? false : true">
+        </mat-form-field>
+      </div>
+
+
+
+
+      <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex class="inputField">
+          <input matInput placeholder="Amount L.L" formControlName="amountL" type="number" step="1000" min="0"
+            onkeydown="javascript: return event.keyCode == 69 ? false : true">
+        </mat-form-field>
+      </div>
+
+
+      <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field class="inputField" fxFlex>
+          <input matInput placeholder="Client Name" formControlName="clientName" type="text" name="nameInput"
+            [matAutocomplete]="auto">
+          <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="intraClearClientName()">
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option (onSelectionChange)="intraSetClient(option.PID)" *ngFor="let option of options" [value]="option.name">{{option.name}}
+              || {{option.address}}</mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button mat-raised-button name="addButton" color="primary" (click)="addIntraOperation()" [disabled]="!intraForm.valid">Submit</button>
+  </div>
+</ng-template>
+
+
+<ng-template #billModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">New Telecom Bill Transaction</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form fxLayout="column" [formGroup]="billForm" autocomplete="off">
+
+      <div>
+        <mat-radio-group formControlName="currency" fxLayout fxLayoutAlign="center center" fxLayoutGap="30px">
+          <mat-radio-button value="d" [checked]="true">$</mat-radio-button>
+          <mat-radio-button value="l">L.L</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+
+      <div *ngIf="billIsDollar" class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px"
+        fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex class="inputField">
+          <input matInput placeholder="Amount $" formControlName="amountD" type="number" min="0" onkeydown="javascript: return event.keyCode == 69 ? false : true">
+        </mat-form-field>
+      </div>
+
+      <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex class="inputField">
+          <input matInput placeholder="Amount L.L" formControlName="amountL" type="number" step="1000" min="0"
+            onkeydown="javascript: return event.keyCode == 69 ? false : true">
+        </mat-form-field>
+      </div>
+
+      <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field class="inputField" fxFlex>
+          <input matInput placeholder="Client Name" formControlName="clientName" type="text" name="nameInput"
+            [matAutocomplete]="auto">
+          <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="billClearClientName()">
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option (onSelectionChange)="billSetClient(option.PID)" *ngFor="let option of options" [value]="option.name">{{option.name}}
+              || {{option.address}}</mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button mat-raised-button name="addButton" color="primary" (click)="addBillOperation()" [disabled]="!billForm.valid">Submit</button>
+  </div>
+</ng-template>
+
+<ng-template #ctbModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">New Cash to Business Transaction</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form fxLayout="column" [formGroup]="ctbForm" autocomplete="off">
+
+      <div>
+        <mat-radio-group formControlName="currency" fxLayout fxLayoutAlign="center center" fxLayoutGap="30px">
+          <mat-radio-button value="d" [checked]="true">$</mat-radio-button>
+          <mat-radio-button value="l">L.L</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+
+      <div *ngIf="ctbIsDollar" class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px"
+        fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex class="inputField">
+          <input matInput placeholder="Amount $" formControlName="amountD" type="number" min="0" onkeydown="javascript: return event.keyCode == 69 ? false : true">
+        </mat-form-field>
+      </div>
+
+      <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex class="inputField">
+          <input matInput placeholder="Amount L.L" formControlName="amountL" type="number" step="1000" min="0"
+            onkeydown="javascript: return event.keyCode == 69 ? false : true">
+        </mat-form-field>
+      </div>
+
+      <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field class="inputField" fxFlex>
+          <input matInput placeholder="Client Name" formControlName="clientName" type="text" name="nameInput"
+            [matAutocomplete]="auto">
+          <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="ctbClearClientName()">
+            <mat-icon>close</mat-icon>
+          </button>
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option (onSelectionChange)="ctbSetClient(option.PID)" *ngFor="let option of options" [value]="option.name">{{option.name}}
+              || {{option.address}}</mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </div>
+
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button mat-raised-button name="addButton" color="primary" (click)="addctbOperation()" [disabled]="!ctbForm.valid">Submit</button>
+  </div>
+</ng-template>
+
+<ng-template #extraModal let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Extra Transaction</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form fxLayout="column" [formGroup]="extraForm" autocomplete="off">
+
+      <div>
+        <mat-radio-group formControlName="tranType" fxLayout fxLayoutAlign="center center" fxLayoutGap="30px">
+          <mat-radio-button value="p" [checked]="true">Bonus</mat-radio-button>
+          <mat-radio-button value="m">Penalty</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <div>
+        <mat-radio-group formControlName="currency" fxLayout fxLayoutAlign="center" fxLayoutGap="30px">
+          <mat-radio-button value="d" [checked]="true">$</mat-radio-button>
+          <mat-radio-button value="l">L.L</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+
+      <div *ngIf="extraIsDollar" class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px"
+        fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex class="inputField">
+          <input matInput placeholder="Amount $" formControlName="amountD" type="number" min="0" onkeydown="javascript: return event.keyCode == 69 ? false : true">
+        </mat-form-field>
+      </div>
+
+      <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+        <mat-form-field fxFlex class="inputField">
+          <input matInput placeholder="Amount L.L" formControlName="amountL" type="number" step="1000" min="0"
+            onkeydown="javascript: return event.keyCode == 69 ? false : true">
+        </mat-form-field>
+      </div>
+
+      
+
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button mat-raised-button name="addButton" color="primary" (click)="addExtraOperation()" [disabled]="!extraForm.valid">Submit</button>
+  </div>
+</ng-template>

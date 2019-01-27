@@ -1,0 +1,77 @@
+<div class="container-fluid">
+    <p-contextMenu [target]="contextScope" [model]="items" oncontextmenu="return false;"></p-contextMenu>
+
+    <table class="table table-striped table-bordered table-hover table-sm noselect " id="subscribersRprtDT">
+      <thead>
+      </thead>
+      <tbody #contextScope>
+      </tbody>
+    </table>
+</div>
+
+
+
+<div hidden>
+  <button id="togglePaymentBtn" (click)="togglePayment()"></button>
+  <button id="deleteSubscriberBtn" (click)="deleteSubscription()"></button>
+  <button id="printBtn" (click)="print()"></button>
+</div>
+
+<div class="table table-striped noselect" id="printFacture" hidden >
+  <div style="float:left;" class="noselect">
+      <b>الأسم: </b>{{this.full_name}}<br>
+      <b>رقم الهاتف</b> clientPhone.value<br>
+      <b>العنوان:</b> clientAddress.value<br>
+    </div>
+    <div style="float: right;" class="noselect">
+      <b>تاريخ الفاتورة</b> factureDate.value<br>
+      <!-- <b>Date de Livraiso</b> delDate.value  | date: dd-MM-yyyy<br> -->
+      <!-- <b>Code:</b> newCode -->
+    </div>
+    <br>
+    <br>
+    <br>
+    <hr>
+  <table class="table table-responsive table-bordered text-center test noselect" style="width:100%;  border-collapse: collapse; border: 1px solid black;">
+    <thead>
+    <tr>
+    <th style="border: 1px solid black;" class="text-center mousetrap" rowspan="2">ARTICLES</th>
+    <th style="border: 1px solid black;" class="text-center mousetrap" colspan="2">QUANTITE</th>
+    <th style="border: 1px solid black;" class="text-center mousetrap" rowspan="2">P.Unit</th>
+            <th style="border: 1px solid black;" class="text-center mousetrap" rowspan="2">Montant</th>
+        </tr>
+        <tr>
+            <th style="border: 1px solid black;" class="text-center mousetrap">CLS/CRT</th>
+            <th style="border: 1px solid black;" class="text-center mousetrap">PIECE</th>
+        </tr>
+    </thead>
+  <tbody>
+    <tr>
+        <td style="border: 1px solid black;">item.itemName</td>
+        <td style="border: 1px solid black;">item.crt</td>
+        <td style="border: 1px solid black;">item.piece</td>
+        <td style="border: 1px solid black;"></td>
+        <td style="border: 1px solid black;"></td>
+    </tr>
+  </tbody>
+</table> 
+<hr>
+    <div style="float:left;" class="noselect">
+        <label style="font-size: 13px;">Le Responseble</label>
+        <label>----------------------</label>
+    </div>
+    <div style="float:right;" class="noselect">
+        <label style="font-size: 13px;">Num de cls/crt</label>
+        <label>-----------------------</label>
+    </div>
+    <br>
+    <br>
+          <div style="float:left;" class="noselect">
+              <label style="font-size: 13px;">Le Client</label>
+              <label>-----------------------</label>
+          </div>
+    <div  style="float:right;" class="noselect">
+        <label style="font-size: 13px;">Num de piece</label>
+        <label>-----------------------</label>
+    </div>
+</div>

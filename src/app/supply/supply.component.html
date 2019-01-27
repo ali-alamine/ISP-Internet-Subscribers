@@ -1,0 +1,158 @@
+<div class="container">
+    <form [formGroup]="supplyForm" autocomplete="off">
+        <div>
+            <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+                <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+                    <mat-form-field class="searchInput" fxFlex>
+                        <input matInput placeholder="Search Supplier Name" formControlName="searchSupplier" type="text" name="nameInput" [matAutocomplete]="auto"
+                            autofocus>
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option (onSelectionChange)="test(option.PID,option.name)" *ngFor="let option of options" [value]="option.name">{{option.name}}
+                                || {{option.address}}</mat-option>
+                        </mat-autocomplete>
+                        <mat-error> Supplier name is required</mat-error>
+                    </mat-form-field>
+                </div>
+                <mat-form-field class="inputField" fxFlex>
+                    <input matInput placeholder="Name" formControlName="supplierName" type="text" name="nameInput" [readonly]="true">
+                    <mat-error> Supplier name is required</mat-error>
+                </mat-form-field>
+                <mat-form-field class="inputField">
+                    <input matInput [matDatepicker]="expDateStart"  formControlName="supplyDate" placeholder="Supply Date">
+                    <mat-datepicker-toggle matSuffix [for]="expDateStart" tabIndex="-1"></mat-datepicker-toggle>
+                    <mat-datepicker touchUi #expDateStart></mat-datepicker>
+                    <mat-error> Date is required</mat-error>
+                </mat-form-field>
+                <mat-form-field  fxFlex class="inputField">
+                    <mat-select matInput placeholder="Supply Type" formControlName="type" >
+                      <!-- <mat-option value="RC">Recharge Cards</mat-option> -->
+                      <mat-option value="AC">Accessories</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+            </div>
+        </div>
+        <hr>
+        <div formArrayName="items">
+            <div *ngFor="let item of itemsForm.controls; let i=index" [formGroupName]="i">
+                <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+                    <mat-form-field fxFlex  class="searchInput" style="text-align: center;">
+                        <input matInput placeholder="Search Item" formControlName="searchItem" type="text" 
+                        name="nameInput" [matAutocomplete]="auto" autofocus (ngModelChange)="onItemNameChange(i)">
+                        <mat-autocomplete #auto="matAutocomplete"  id="itemName{{i}}" #itemName >
+                            <mat-option (onSelectionChange)="addItem(i,item.IID,item.name)" *ngFor="let item of items" 
+                            [value]="item.name">{{item.name}}</mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <mat-form-field fxFlex class="itemInputs">
+                        <input matInput placeholder="Quantity" formControlName="quantity" type="number" min="0" 
+                        onkeydown="javascript: return event.keyCode == 69 ? false : true" (ngModelChange)="rowChangePrice(i)">
+                    </mat-form-field>
+                    <mat-form-field fxFlex class="itemInputs">
+                        <input matInput placeholder="Cost" formControlName="price" type="number" min="0" 
+                        onkeydown="javascript: return event.keyCode == 69 ? false : true" (keydown.Tab)="tabKey(i)" (ngModelChange)="rowChangePrice(i)">
+                    </mat-form-field>
+                    <mat-form-field fxFlex class="itemInputs">
+                        <input matInput placeholder="Total Price" formControlName="itemTotalPrice" type="number" min="0" 
+                        onkeydown="javascript: return event.keyCode == 69 ? false : true" (keydown.Tab)="tabKey(i)" [readonly]="true">
+                    </mat-form-field>
+                    <button mat-icon-button (click)="deleteItem(i,true)" color="warn" tabindex="-1">
+                        <mat-icon aria-label="Delete Item" title="Delete Item">close</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <button class="addBtns" mat-raised-button color="primary" (click)="openNewItemModal(newAccessoriesModal,newRechargeCardModal)" style="float:right">
+            <i class="material-icons">add</i> New Item
+        </button>
+        <button class="addBtns" mat-raised-button color="primary" (click)="addRow()" style="float:right">
+            <i class="material-icons">subdirectory_arrow_left</i> Add Row
+        </button>
+        <hr>
+        <mat-form-field fxFlex class="itemInputs">
+            <input matInput placeholder="Total Price" #totalPrice formControlName="totalPrice" type="number" min="0" onkeydown="javascript: return event.keyCode == 69 ? false : true">
+        </mat-form-field>
+        <mat-form-field fxFlex class="itemInputs">
+            <input matInput placeholder="Paid" formControlName="paid" type="number" min="0" onkeydown="javascript: return event.keyCode == 69 ? false : true">
+        </mat-form-field>
+        <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+            <mat-form-field class="inputFieldDim" fxFlex>
+              <mat-select placeholder="Drawer" formControlName="drawer">               
+                  <!-- <mat-option value="M">Recharge Cards</mat-option> -->
+                  <mat-option value="A">Accessories</mat-option>
+                <mat-option value="S">Internet</mat-option>
+                <mat-option value="out">other</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        <button mat-raised-button name="addButton" class="addBtns" color="primary" (click)="addSupplyInvoice()" [disabled]="!supplyForm.valid">Submit</button>
+    </form>
+</div>
+<ng-template #newAccessoriesModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Add New Accessories</h4>
+        <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form fxLayout="column" [formGroup]="newItemForm" autocomplete="off">
+            <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+                <mat-form-field class="inputNewItem" fxFlex>
+                    <input matInput placeholder="Name" formControlName="name" type="text" name="nameInput" autofocus>
+                </mat-form-field>
+            </div>
+            <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+                <mat-form-field class="inputNewItem" fxFlex>
+                    <input matInput placeholder="Price" formControlName="price" type="number" min="0">
+                </mat-form-field>
+            </div>
+            <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+                <mat-form-field class="inputNewItem" fxFlex>
+                    <input matInput placeholder="Bar Code" formControlName="bar_code" type="text">
+                </mat-form-field>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button mat-raised-button name="addButton" color="primary" (click)="addNewAccessories()" [disabled]="!newItemForm.valid">Add</button>
+    </div>
+</ng-template>
+<ng-template #newRechargeCardModal let-c="close" let-d="dismiss">
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Add Recharge Cards</h4>
+          <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form fxLayout="column" [formGroup]="rechargeCardForm" autocomplete="off">
+            <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+              <mat-form-field class="inputField" fxFlex>
+                <input matInput placeholder="Card Name" formControlName="name" type="text" name="nameInput" autofocus>
+                <mat-error> Card name is required</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="input-row" fxLayout="row" >
+                <mat-form-field class="inputField" fxFlex >
+                  <mat-select  placeholder="Company" formControlName="company">
+                    <mat-option value="ALFA">ALFA</mat-option>
+                    <mat-option value="MTC">MTC</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+              <mat-form-field class="inputField" fxFlex>
+                <input matInput placeholder="Price" formControlName="price" type="number" min="0">
+              </mat-form-field>
+            </div>
+            <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+              <mat-form-field class="inputField" fxFlex>
+                <input matInput placeholder="Bar Code" formControlName="bar_code" type="text">
+              </mat-form-field>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button mat-raised-button name="addButton" color="primary" (click)="addNewRechargeCard()" [disabled]="!rechargeCardForm.valid">Add</button>
+        </div>
+</ng-template>

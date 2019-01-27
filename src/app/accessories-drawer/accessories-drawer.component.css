@@ -1,0 +1,45 @@
+.drawerValues{
+    text-align: center;
+    
+}
+.summary{
+    background-color:#E3E0E0;
+    height:45px;
+    margin: auto;
+    margin-bottom: 15px;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+      -webkit-user-select: none; 
+       -khtml-user-select: none; 
+         -moz-user-select: none; 
+          -ms-user-select: none; 
+              user-select: none; 
+                                   
+}
+
+#accDrawerDT{
+    text-align: center;
+}
+
+.container-fluid{
+    margin-bottom: 25px;
+    margin-top: 25px;
+    
+  }
+
+.drawerBtns button{
+    margin: 6px;
+}
+
+.inputField {
+    width: 100%;
+    padding: 7px;
+  }
+  
+  .inputFieldDim {
+    width: 100%;
+    padding: 7px;
+  }
+  

@@ -1,0 +1,83 @@
+<div class="container-fluid">
+  <mat-accordion id="accordionSearch">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Filter Inputs
+        </mat-panel-title>
+        <mat-panel-description>
+          Enter search criteria to filter result
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <form fxLayout="column" [formGroup]="filterForm" autocomplete="off">
+        <div class="input-row" fxLayout="row">
+          <mat-form-field class="inputField" fxFlex>
+            <input matInput placeholder="Address" formControlName="address" type="text" name="nameInput" autofocus>
+          </mat-form-field>
+        </div>
+        
+        <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+          <mat-form-field class="inputFieldDim" fxFlex>
+            <mat-select placeholder="Profile" formControlName="profile">
+              <mat-option value="-1">All</mat-option>
+              <mat-option value="35000">35,000</mat-option>
+              <mat-option value="50000">50,000</mat-option>
+              <mat-option value="60000">60,000</mat-option>
+              <mat-option value="90000">90,000</mat-option>
+              <mat-option value="135000">135,000</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+
+        <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+          <mat-form-field class="inputFieldDim" fxFlex>
+            <mat-select placeholder="Paid/Unpaid" formControlName="paid">
+              <mat-option value="-1">Any</mat-option>
+              <mat-option value="1">Paid</mat-option>
+              <mat-option value="0">Unpaid</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+          <mat-form-field class="inputFieldDim" fxFlex>
+            <mat-select placeholder="Client Status" formControlName="isActivated">
+              <mat-option value="-1">Any</mat-option>
+              <mat-option value="1">Activated</mat-option>
+              <mat-option value="0">Deactivated</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+          <mat-form-field class="inputField">
+            <input matInput [matDatepicker]="expDateStart" placeholder="Exp Date Start" formControlName="fromExpDate">
+            <mat-datepicker-toggle matSuffix [for]="expDateStart" tabIndex="-1"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #expDateStart></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field class="inputField" class="dateFilter">
+            <input matInput [matDatepicker]="expDateEnd" placeholder="Exp Date End" formControlName="toExpDate">
+            <mat-datepicker-toggle matSuffix [for]="expDateEnd" tabIndex="-1"></mat-datepicker-toggle>
+            <mat-datepicker touchUi #expDateEnd></mat-datepicker>
+          </mat-form-field>
+
+        </div>
+
+      </form>
+      <button mat-raised-button class="searchFormBtn" name="searchBtn" color="primary" [disabled]="!filterForm.valid"
+        (click)="searchSubmit() ">Show
+        Result
+      </button>
+      <!-- <button mat-raised-button class="searchFormBtn" name="clearBtn" color="warn" (click)="clearForm()">Clear</button> -->
+    </mat-expansion-panel>
+  </mat-accordion>
+  <table class="table table-striped table-bordered table-hover table-sm noselect " id="subscribersRprtDT">
+    <thead>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,21 @@
+.itemInputs , .inputField{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.itemInputs{
+    width: 18%;
+    text-align: center;
+}
+
+.searchInput{
+    margin-left: 5px;
+    margin-right: 5px;
+    width: 33%;
+}
+.addBtns{
+    margin: 15px;
+}
+
+.inputNewItem{
+    width: 100%;
+}

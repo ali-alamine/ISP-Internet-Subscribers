@@ -1,0 +1,78 @@
+<div class="noselect">
+  <button mat-icon-button (click)="goBack()">
+    <i class="material-icons">arrow_back</i>
+  </button>
+
+  <button mat-icon-button (click)="goForward()">
+    <i class="material-icons">arrow_forward</i>
+  </button>
+  <span id="title">
+    <b>All Subscribers</b> Designed and Developed by <b>E-Safe Solutions - 03776132</b>
+  </span>
+</div>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark noselect">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/subscribers" routerLinkActive="active">Subscribers</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/subscription" routerLinkActive="active">Subscription</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/subscribersReport" routerLinkActive="active">Report</a>
+      </li>
+        <span style="color:red;margin-top: 9px;font-weight: bold">|</span>
+         <!-- <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false" [class.active]="currentUrl == '/subscribersReport'">
+          Report
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" routerLink="/subscribersReport" routerLinkActive="active">Subscribers Report</a>
+          <div class="dropdown-divider"></div>
+        </div>
+      </li> -->
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/drawer" routerLinkActive="active">Drawer</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/sell" routerLinkActive="active">Sells</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/supply" routerLinkActive="active">Supply</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/stock" routerLinkActive="active">Stock</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/clients" routerLinkActive="active">Clients</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/suppliers" routerLinkActive="active">Suppliers</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/setting" routerLinkActive="active">Settings</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="invDropDown" role="button" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false" [class.active]="currentUrl == '/internetInvoices' || currentUrl.indexOf('/supplyInvoices') == 0  || currentUrl == '/centralInvoices' || currentUrl == '/accessoriesInvoices' || currentUrl == '/creditInvoices' ">
+          Invoices
+        </a>
+        <div class="dropdown-menu" aria-labelledby="invDropDown">
+          <a class="dropdown-item" routerLink="/accessoriesInvoices" routerLinkActive="active">Accessories Invoices</a>
+          <!-- <a class="dropdown-item" routerLink="/centralInvoices" routerLinkActive="active">Central Invoices</a> -->
+          <a class="dropdown-item" routerLink="/internetInvoices" routerLinkActive="active">Internet Invoices</a>
+          <!-- <a class="dropdown-item" routerLink="/creditInvoices" routerLinkActive="active">Recharge Invoices</a> -->
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" routerLink="/supplyInvoices" routerLinkActive="active">Supply Invoices</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>

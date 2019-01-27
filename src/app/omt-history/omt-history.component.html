@@ -1,0 +1,35 @@
+<div class="container-fluid">
+
+ 
+
+  <form fxLayout="column" [formGroup]="searchForm" autocomplete="off">
+   
+
+    <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+      <mat-form-field class="inputField">
+        <input matInput [matDatepicker]="searchDate" formControlName="operDate"  placeholder="Search Date">
+        <mat-datepicker-toggle matSuffix [for]="searchDate" tabIndex="-1"></mat-datepicker-toggle>
+        <mat-datepicker touchUi #searchDate></mat-datepicker>
+        <mat-error> Search Date is required</mat-error>
+      </mat-form-field>  
+      <button mat-raised-button class="searchFormBtn" name="searchBtn" color="primary" [disabled]="!searchForm.valid"(click)="searchByDate() ">Show Result
+      </button> 
+      <button mat-raised-button class="searchFormBtn" color="warn" (click)="showUnpaidOper() ">Show Unpaid </button>   
+
+    </div>
+  </form>  
+
+  <table class="table table-striped table-bordered table-hover table-sm noselect " id="omtHistoryDT">
+    <thead>
+    </thead>
+    <tbody #contextScope>
+    </tbody>
+  </table>
+
+  <p-contextMenu [target]="contextScope" [model]="items" oncontextmenu="return false;"></p-contextMenu>
+</div>
+
+
+<div hidden>
+  <button id="setAsPaidBtn" (click)="setAsPaid()"></button>
+</div>

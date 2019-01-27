@@ -1,0 +1,42 @@
+<app-nav-bar></app-nav-bar>
+<router-outlet></router-outlet>
+<ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" size="medium" color="#ec0f0f" type="fire"></ngx-spinner>
+<button hidden id="editSupplierBtn" (click)="openSupplierModal(supplierModal)"></button>
+
+<ng-template #supplierModal let-c="close" let-d="dismiss">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Declare Drawer Amount: {{objDate | date : 'fullDate' }}</h4>
+    </div>
+    <div class="modal-body">
+        <form fxLayout="column" [formGroup]="drawerForm" autocomplete="off">
+            <div class="input-row" fxLayout="row">
+                <mat-form-field class="inputField" fxFlex>
+                    <input matInput placeholder="Internet Drawer Amount" formControlName="internetAmount" type="number" name="nameInput" [appFocusDirective]="true">
+                    <mat-error>Internet Drawer Amount is required</mat-error>
+                </mat-form-field>
+            </div>
+            <!-- <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+                <mat-form-field class="inputField" fxFlex>
+                    <input matInput placeholder="Mobile Drawer Amount" formControlName="mobileDrawer" type="number">
+                    <mat-error> Mobile Drawer Amount is required</mat-error>
+                </mat-form-field>
+            </div>-->
+            <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+                <mat-form-field class="inputField" fxFlex>
+                    <input matInput placeholder="Accessories Drawer Amount" formControlName="accessories" type="number">
+                    <mat-error> Accessories Drawer Amount is required</mat-error>
+                </mat-form-field>
+            </div>
+           <!-- <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="20px" fxLayoutGap.lt-md="0px">
+                <mat-form-field class="inputField" fxFlex>
+                    <input matInput placeholder="OMT Drawer Amount" formControlName="omt" type="number">
+                    <mat-error> OMT Drawer Amount is required</mat-error>
+                </mat-form-field>
+            </div> -->
+
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button mat-raised-button name="addButton" color="primary" (click)="setDrawer()" [disabled]="!drawerForm.valid">Set Drawer</button>
+    </div>
+</ng-template>
