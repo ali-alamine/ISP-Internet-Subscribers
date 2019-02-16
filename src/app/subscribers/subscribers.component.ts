@@ -268,12 +268,26 @@ export class SubscribersComponent implements OnInit {
     this.subscriberModalTitle = "Add Subscriber";
 
     if (this.editFlag == true) {
+
+      var pass=prompt("you need a password");
+      console.log(pass)
+      if(pass !== null){
+      this.subscriberService.checkPass(pass).subscribe(Response => {
+
       name = SubscribersComponent.selectedRowData['name'];
       username = SubscribersComponent.selectedRowData['username'];
       phone = SubscribersComponent.selectedRowData['phone'];
       address = SubscribersComponent.selectedRowData['address'];
       profile = SubscribersComponent.selectedRowData['profile'];
       this.subscriberModalTitle = "Update Subscriber";
+
+    }, error => {
+      Swal("incorrect password");
+      this.modalReference.close();
+    });
+  }else{
+    this.modalReference.close();
+  }
     }
     this.subscriberForm = this.fb.group({
       name: [name, Validators.required],
@@ -610,6 +624,7 @@ export class SubscribersComponent implements OnInit {
     // alert(SubscribersComponent.selectedRowData['ID'])
     this.debitPaymentForm = this.fb.group({
       paymentAmount: ['', Validators.required],
+      subName: [SubscribersComponent.selectedRowData['name'], Validators.required],
       subID: [SubscribersComponent.selectedRowData['ID']],
     });
     // this.debitPaymentForm.subID= 

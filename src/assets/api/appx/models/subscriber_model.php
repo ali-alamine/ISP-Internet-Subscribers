@@ -35,6 +35,15 @@ class subscriber_model extends CI_Model{
         }
         return true;
     }
+
+    public function addSubscriberPayment($data){
+        if ($this->db->insert('operation', $data)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public function update ($id, $data){
         $this->db->where('SBID', $id);
         if ($this->db->update('subscriber', $data)) {

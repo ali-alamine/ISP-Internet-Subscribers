@@ -41,8 +41,11 @@ class drawer_model extends CI_Model
 
     }
 
-    public function sumOfAccountLast2Days()
-    {
+
+
+
+    public function sumOfAccountLast2Days(){
+        
         $query = $this->db->query("update drawer d,( SELECT amount from drawer WHERE date = date(now()- INTERVAL 1 day ) and type='l') as s set d.amount = d.amount + s.amount where d.date = date(now()) and d.type='l'");
         $query = $this->db->query("update drawer d,( SELECT amount from drawer WHERE date = date(now()- INTERVAL 1 day ) and type='d') as s set d.amount = d.amount + s.amount where d.date = date(now()) and d.type='d'");
 

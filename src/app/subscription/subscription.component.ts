@@ -178,13 +178,11 @@ export class SubscriptionComponent implements OnInit {
       cancelButtonText: 'No',     
     }).then((result) => {
       if (result.value) {
-        
-
-
       
         if(SubscriptionComponent.selectedRowData['isPaid']==1){
 
           var pass=prompt("you need a password");
+          if(pass != null){
           this.subscriberReportService.checkPass(pass).subscribe(Response => {
           this.subscriberReportService.togglePayment(SubscriptionComponent.selectedRowData['subDetID'], SubscriptionComponent.selectedRowData['isPaid'],SubscriptionComponent.selectedRowData['profile'],SubscriptionComponent.selectedRowData['ID']).subscribe(Response => {
             this.globalSubscriberReportDT.ajax.reload(null, false);
@@ -213,6 +211,7 @@ export class SubscriptionComponent implements OnInit {
         }, error => {
           Swal("incorrect password");
         });
+      }
 
         }else{
           this.subscriberReportService.togglePayment(SubscriptionComponent.selectedRowData['subDetID'], SubscriptionComponent.selectedRowData['isPaid'],SubscriptionComponent.selectedRowData['profile'],SubscriptionComponent.selectedRowData['ID']).subscribe(Response => {
@@ -249,7 +248,8 @@ export class SubscriptionComponent implements OnInit {
     this.printFactureClient();
   }
   deleteSubscription() {
-
+    var pass=prompt("you need a password");
+    this.subscriberReportService.checkPass(pass).subscribe(Response => {
     Swal({
       title: 'Delete Subscription',
       text: 'Do you want to delete this subscription ?',
@@ -279,7 +279,10 @@ export class SubscriptionComponent implements OnInit {
         });
       }
     });
-
+  }, error => {
+    Swal("incorrect password");
+    // this.modalReference.close();
+  });
 
 
    

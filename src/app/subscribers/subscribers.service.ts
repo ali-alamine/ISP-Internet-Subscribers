@@ -55,7 +55,6 @@ export class SubscribersService {
   checkPass(pass) {
     
     var data={"pass":pass};
-    console.log(data)
     return this.httpClient.post("http://localhost/e-safe-data/src/assets/api/settings/checkPassword",data);
   }
   submitDebitPaymentAmount(data){

@@ -18,6 +18,12 @@ export class InternetDrawerService {
     return this.httpClient.get(this.url+"getInternetDetailsDay", {params:{day:data}});
   }
 
+  checkPass(pass) {
+    
+    var data={"pass":pass};
+    return this.httpClient.post("http://localhost/e-safe-data/src/assets/api/settings/checkPassword",data);
+  }
+
 }
 
 

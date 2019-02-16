@@ -2,14 +2,12 @@
 require APPPATH . '/libraries/REST_Controller.php';
 class drawer extends REST_Controller
 {
-    public function __construct()
-    {
+    public function __construct(){
         parent::__construct();
         $this->load->model('drawer_model');
     }
 
-    public function internetDrawer_get()
-    {
+    public function internetDrawer_get(){
 
         $result = $this->drawer_model->getInternetDrawer();
         if ($result) {
@@ -18,12 +16,13 @@ class drawer extends REST_Controller
         }
     }
 
-    public function setDrawer_post()
-    {
+    public function setDrawer_post(){
         $accessories = $this->post('accessories');
         $internetAmount = $this->post('internetAmount');
-        $mobileDrawer = $this->post('mobileDrawer');
-        $omtDrawer = $this->post('omt');
+        $mobileDrawer = 0;
+        // $mobileDrawer = $this->post('mobileDrawer');
+        // $omtDrawer = $this->post('omt');
+        $omtDrawer = 0;
 
         date_default_timezone_set('Asia/Beirut');
         $today = date('Y-m-d H:i:s');
@@ -43,6 +42,15 @@ class drawer extends REST_Controller
             exit;
         }
     }
+    
+        // public function getlastDateInternetDrawer(){
+        //     $result = $this->drawer_model->getlastDateInternetDrawer();
+        //     if ($result) {
+        //         // $this->setDrawer();
+        //         $this->response($result, 200);
+        //         exit;
+        //     }
+        // }
 
     public function setAccount(){
         date_default_timezone_set('Asia/Beirut');
@@ -90,8 +98,7 @@ class drawer extends REST_Controller
         }
     }
 
-    public function accDrawer_get()
-    {
+    public function accDrawer_get(){
 
         $result = $this->drawer_model->getAccDrawer();
         if ($result) {
@@ -100,8 +107,7 @@ class drawer extends REST_Controller
         }
     }
 
-    public function mobileDrawer_get()
-    {
+    public function mobileDrawer_get(){
 
         $result = $this->drawer_model->getMobileDrawer();
         if ($result) {
@@ -110,8 +116,7 @@ class drawer extends REST_Controller
         }
     }
 
-    public function omtDrawer_get()
-    {
+    public function omtDrawer_get(){
 
         $result = $this->drawer_model->getOmtDrawer();
         if ($result) {
@@ -120,8 +125,7 @@ class drawer extends REST_Controller
         }
     }
 
-    public function newOperation_post()
-    {
+    public function newOperation_post(){
         $op_type = $this->post('op_type');
         $dra_type = $this->post('drawer');
         $amount = $this->post('amount');
@@ -136,8 +140,7 @@ class drawer extends REST_Controller
         }
     }
 
-    public function newTransferOperation_post()
-    {
+    public function newTransferOperation_post(){
         $toDrawer = $this->post('toDrawer');
         $fromDrawer = $this->post('fromDrawer');
         $amount = $this->post('amount');
@@ -158,8 +161,7 @@ class drawer extends REST_Controller
     }
     
 
-    public function getMobileDetailsDay_get()
-    {
+    public function getMobileDetailsDay_get(){
         $day = $this->get('day');
         $type = "M";
         $result = $this->drawer_model->getDetailsDay($day, $type);
@@ -169,8 +171,7 @@ class drawer extends REST_Controller
         }
     }
 
-    public function getAccDetailsDay_get()
-    {
+    public function getAccDetailsDay_get(){
         $day = $this->get('day');
         $type = "A";
         $result = $this->drawer_model->getDetailsDay($day, $type);
@@ -180,8 +181,7 @@ class drawer extends REST_Controller
         }
     }
 
-    public function getInternetDetailsDay_get()
-    {
+    public function getInternetDetailsDay_get(){
         $day = $this->get('day');
         $type = "S";
         $result = $this->drawer_model->getDetailsDay($day, $type);
@@ -191,8 +191,7 @@ class drawer extends REST_Controller
         }
     }
 
-    public function getOmtDrawerDetails_get()
-    {
+    public function getOmtDrawerDetails_get(){
         $day = $this->get('day');
         $type = "O";
         $result = $this->drawer_model->getDetailsDay($day, $type);

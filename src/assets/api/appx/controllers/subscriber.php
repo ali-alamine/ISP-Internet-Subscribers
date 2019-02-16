@@ -118,19 +118,35 @@ class subscriber extends REST_Controller
             $this->response("success", 200);
         }
     }
-    public function submitDebitPaymentAmount_put(){        
+    public function submitDebitPaymentAmount_put(){   
+
         $subID = $this->put('subID');
+        $subName = $this->put('subName');
         $paymentAmount = $this->put('paymentAmount');
         $result;
 
-        $result = $this->subscriber_model->incrementDebitAmountDue($subID,$paymentAmount);
+        $result = $this->subscriber_model->decrementDebitAmountDue($subID,$paymentAmount);
   
         
         if ($result === 0) {
             $this->response("Payment could not be completed, Try again.", 404);
         } else {
+              // insert payment into operations
+            $op_type = "a";
+            $dra_type = "s";
+            $amount = $paymentAmount;
+            $comment = "return from ".$subName;
+            date_default_timezone_set('Asia/Beirut');
+            $today = date('Y-m-d H:i:s');
+            $result2 = $this->subscriber_model->addSubscriberPayment(array('date' => $today, 'amount' => $amount, 'note' => $comment,
+                'op_type' => $op_type, 'dra_type' => $dra_type));
+            if ($result2) {
+                $this->response($result2, 200);
+                exit;
+            }
             $this->response("success", 200);
         }
+      
     }
 
     public function deleteSubscription_put()

@@ -37,7 +37,7 @@ export class SettingsComponent implements OnInit {
   }
   changePass(){
     this.settingsService.changePass(this.passSett.value).subscribe(Response => {
-      swal("success")
+      swal("Changed!")
       this.modalReference.close();
     }, error => {
       swal("Incorrect Password")

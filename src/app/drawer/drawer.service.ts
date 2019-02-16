@@ -14,6 +14,7 @@ export class DrawerService {
   setDrawer(data): Observable<any>{
     return this.httpClient.post(this.url+"setDrawer",data);
   }
+  
   newOperation(data): Observable<any>{
     return this.httpClient.post(this.url+"newOperation",data);
   }
@@ -28,5 +29,11 @@ export class DrawerService {
 
   getOmtDrawerDetails(data):Observable<any>{
     return this.httpClient.get(this.url+"getOmtDrawerDetails", {params:{day:data}});
+  }
+
+  checkPass(pass) {
+    
+    var data={"pass":pass};
+    return this.httpClient.post("http://localhost/e-safe-data/src/assets/api/settings/checkPassword",data);
   }
 }

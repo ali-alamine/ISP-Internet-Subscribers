@@ -40,6 +40,7 @@ export class InternetDrawerComponent implements OnInit {
     private fb: FormBuilder,
     route: ActivatedRoute
   ) {}
+  
   ngOnInit() {
     this.getInternetDrawerDT();
     this.items = [
@@ -55,10 +56,17 @@ export class InternetDrawerComponent implements OnInit {
       }
     ];
   }
+
   getInternetDrawerDT() {
     this.internetDrawerService.getInternetDrawer().subscribe(
       Response => {
         this.internetDrawer = Response;
+        console.log("yesterday account ")
+        console.log(this.internetDrawer[1])
+        console.log("size")
+       var yesterdayTotalDrawer=Object.keys(this.internetDrawer).length
+        console.log("All Accounts")
+        console.log(this.internetDrawer)
         $("#internetDrawerDT")
           .dataTable()
           .fnAddData(this.internetDrawer);
@@ -158,31 +166,43 @@ export class InternetDrawerComponent implements OnInit {
   }
 
   addNewOperation() {
-    this.drawerService.newOperation(this.operationForm.value).subscribe(
-      Response => {
-        this.internetDrawer = "";
-        $("#internetDrawerDT")
-          .DataTable()
-          .destroy();
-        $("#internetDrawerDT").empty();
-        this.getInternetDrawerDT();
-        swal({
-          type: "success",
-          title: "Success",
-          text: "Operation Successfully",
-          showConfirmButton: false,
-          timer: 1000
-        });
-      },
-      error => {
-        swal({
-          type: "error",
-          title: error.statusText,
-          text: error.message
-        });
-      }
-    );
+    // alert("here we go")
+
+    var pass=prompt("you need a password");
+    if(pass != null){
+    this.drawerService.checkPass(pass).subscribe(Response => {
+      this.drawerService.newOperation(this.operationForm.value).subscribe(
+        Response => {
+          this.internetDrawer = "";
+          $("#internetDrawerDT")
+            .DataTable()
+            .destroy();
+          $("#internetDrawerDT").empty();
+          this.getInternetDrawerDT();
+          swal({
+            type: "success",
+            title: "Success",
+            text: "Operation Successfully",
+            showConfirmButton: false,
+            timer: 1000
+          });
+        },
+        error => {
+          swal({
+            type: "error",
+            title: error.statusText,
+            text: error.message
+          });
+        }
+      );
+      this.modalReference.close();
+
+  }, error => {
+    swal("incorrect password");
     this.modalReference.close();
+  });
+}
+   
   }
 
   openShowDetails(showDetails) {
@@ -271,7 +291,6 @@ export class InternetDrawerComponent implements OnInit {
       comment: [""]
     });
   }
-
   submitransfer() {
     if (
       this.transferForm.get("toDrawer").value ==
