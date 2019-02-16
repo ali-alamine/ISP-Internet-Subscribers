@@ -69,7 +69,6 @@ export class SubscribersComponent implements OnInit {
         { data: "isPaid", title: "Paid/Unpaid" },
         { data: "is_activated", title: "Activated" },
         { data: "amountDue", title: "amountDue" , render: $.fn.dataTable.render.number(',', '.', 0, 'LL ') }
-
       ],
       "columnDefs": [
         {
